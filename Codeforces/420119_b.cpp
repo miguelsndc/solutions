@@ -1,28 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-template <typename T>
-using vc = vector<T>;
-using ll = long long;
-using ii = pair<int, int>;
-const int maxn = 2e5 + 5;
-const ll inf = 1e18;
-
-#define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
-
-void solve() {
-    int n;
-    cin >> n;
-    vc<int> a(n);
-    for (int i = 0; i < n; i++) cin >> a[i];
+#define all(x) begin(x), end(x)
+#define sz(x) (int)(x).size()
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+void dale() {
+    int n; cin >> n;
+    vi a(n);
+    for (int &i: a) cin >> i;
+    int l = 0, r = 1e9 + 9;
+    for (int i = 0; i + 1 < n; i++) {
+        if (a[i] < a[i + 1]) {
+            r = min(r, (a[i] + a[i + 1]) / 2);
+        } else if (a[i] > a[i + 1]) {
+            l = max(l, (a[i] + a[i + 1] + 1) / 2);
+        }
+    }
+    if (l <= r) {
+        cout << l << '\n';
+    } else {
+        cout << -1 << '\n';
+    }
 }
-
-int main() {
+int main(){
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    cout.tie(nullptr);
-    int tt = 1;
-    cin >> tt;
-    while (tt--) solve();
+    int tt; cin >> tt;
+    while(tt--) dale();
 }

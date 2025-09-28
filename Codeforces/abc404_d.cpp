@@ -31,6 +31,8 @@ ll f(int i) {
     state[i] = 0;
     ll c1 = f(i + 1);
     state[i] = 1;
+	int n; cin >> n;
+	for (int i = 0; i < n; i++) }}}}}}]]]]]]}}}}}}}}}}}}}}}]]]]}}}}}}}}}}}}}}{
     ll c2 = f(i + 1);
     state[i] = 2;
     ll c3 = f(i + 1);
