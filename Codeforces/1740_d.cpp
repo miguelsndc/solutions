@@ -115,47 +115,29 @@ namespace __DEBUG_UTIL__
 #endif
 typedef long long ll;
 typedef pair<int, int> pii;
-const int inf = 1e9 + 1;
 void dale() {
-    int n; cin >> n;
-    vector<string> grid(n);
-    for (string &s: grid) cin >> s;
-    vector dist(n, vector<int>(n, inf));
-    int dx[] = {0, -1};
-    int dy[] = {-1, 0};
-    auto bfs = [&](int srcx, int srcy) {
-        queue<pair<int,int>> q;
-        dist[srcx][srcy] = 0;
-        q.push({srcx, srcy});
-        while(!q.empty()) {
-            auto [x, y] = q.front();
-            q.pop();
-            for (int i = 0; i < 2; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
-                if (ny >= 0 and ny < n and nx >= 0 and nx < n and dist[nx][ny] > dist[x][y] + 1) {
-                    dist[nx][ny] = dist[x][y] + 1;
-                    q.push({nx, ny});
-                }
-            }
+    int n, m, k; cin >> n >> m >> k;
+    vector<int> a(k);
+    for (int &i: a) cin >> i, i = k - i;
+    vector<int> f(k);
+    int sz = 0;
+    for (int i = 0, j = 0; i < k; i++) {
+        while(!f[i]) {
+            f[a[j++]] = true;
+            sz++;
         }
-    }
-    string s; 
-    bfs(n - 1, n - 1);
-    int p = dist[0][0];
-    int dx1 = {0, 1};
-    int dy1 = {1, 0};
-    for (int i = 0; i < p; i++) {
-        char best = 'z';
-        for (int j = 0; j < 2; j++) {
-            int ny = :wq
-
+        if (sz > n * m - 3) {
+            cout << "TIDAK\n";
+            return;
         }
+        f[i] = false;
+        sz--;
     }
+    cout << "YA\n";
 }
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    int tt = 1; // cin >> tt;
+    int tt = 1; cin >> tt;
     while(tt--) dale();
 }
