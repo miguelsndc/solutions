@@ -1,2 +1,6 @@
+*
+# Unignore all with extensions
+!*.*
+*.prob
 **/.cph/*
 **/.vscode/*
