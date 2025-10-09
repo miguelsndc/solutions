@@ -1,6 +1,20 @@
+# Ignora tudo
 *
-# Unignore all with extensions
+
+# Não ignora pastas (para poder percorrer diretórios)
+!*/
+
+# Permite todos arquivos que tenham extensão
 !*.*
-*.prob
+
+# Permite arquivos .prob (mesmo sem extensão extra)
+!*.prob
+
+*.in 
+*.out
+# Continua ignorando .cph e .vscode
 **/.cph/*
 **/.vscode/*
+
+# Sempre manter o próprio .gitignore
+!.gitignore
