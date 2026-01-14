@@ -15,20 +15,20 @@ bool gt(ld a, ld b) { return a > b + EPS; }       // >
 bool le(ld a, ld b) { return a < b + EPS; }       // <=
 bool ge(ld a, ld b) { return a + EPS > b; }       // >=
 
-struct Point {
+struct pt {
     ld x, y;
-    Point(ld x = 0, ld y = 0) : x(x), y(y) {}
-    Point operator+(const Point& a) const { return Point(x + a.x, y + a.y); }
-    Point operator-(const Point& a) const { return Point(x - a.x, y - a.y); }
-    ld operator*(const Point& a) const { return (x * a.x + y * a.y); }  // DOT product  // norm // lenght^2 // inner
-    ld operator%(const Point& a) const { return (x * a.y - y * a.x); }  // Cross // Vector product
-    Point operator*(ll c) const { return Point(x * c, y * c); }
-    Point operator/(ll c) const { return Point(x / c, y / c); }
+    pt(ld x = 0, ld y = 0) : x(x), y(y) {}
+    pt operator+(const pt& a) const { return pt(x + a.x, y + a.y); }
+    pt operator-(const pt& a) const { return pt(x - a.x, y - a.y); }
+    ld operator*(const pt& a) const { return (x * a.x + y * a.y); }  // DOT product  // norm // lenght^2 // inner
+    ld operator%(const pt& a) const { return (x * a.y - y * a.x); }  // Cross // Vector product
+    pt operator*(ll c) const { return pt(x * c, y * c); }
+    pt operator/(ll c) const { return pt(x / c, y / c); }
 
-    bool operator==(const Point& a) const { return eq(x, a.x) && eq(y, a.y); }             // for double point
-    bool operator<(const Point& a) const { return eq(x, a.x) ? lt(y, a.y) : lt(x, a.x); }  // for double point
-    bool operator<<(Point& a) {
-        Point& p = *this;
+    bool operator==(const pt& a) const { return eq(x, a.x) && eq(y, a.y); }             // for double point
+    bool operator<(const pt& a) const { return eq(x, a.x) ? lt(y, a.y) : lt(x, a.x); }  // for double point
+    bool operator<<(pt& a) {
+        pt& p = *this;
         return eq(p % a, 0) ? lt(p * p, a * a) : lt(p % a, 0);
     }  // angle(this) < angle(a)
 
@@ -40,12 +40,12 @@ struct Point {
     // }  // angle(p) < angle(a)
 };
 
-vector<Point> ch(vector<Point> pts, bool sorted = false) {
+vector<pt> ch(vector<pt> pts, bool sorted = false) {
     if (!sorted) sort(begin(pts), end(pts));
     pts.resize(unique(begin(pts), end(pts)) - begin(pts));
     if (pts.size() <= 1) return pts;
     int s = 0, n = pts.size();
-    vector<Point> h(2 * n + 1);
+    vector<pt> h(2 * n + 1);
     for (int i = 0; i < n; h[s++] = pts[i++])
         while (s > 1 && (pts[i] - h[s - 2]) % (h[s - 1] - h[s - 2]) > 0)
             s--;
@@ -58,7 +58,7 @@ vector<Point> ch(vector<Point> pts, bool sorted = false) {
 
 /* Checks if a point is inside the convex hull: O(log(n))*/
 
-bool inside_triangle(Point a, Point b, Point c, Point point) {
+bool inside_triangle(pt a, pt b, pt c, pt point) {
     ld s1 = abs((b - a) % (c - b));
     ld area1 = abs((point - a) % (point - b));
     ld area2 = abs((point - b) % (point - c));
@@ -66,7 +66,7 @@ bool inside_triangle(Point a, Point b, Point c, Point point) {
     ld s2 = area1 + area2 + area3;
     return s1 == s2;
 }
-bool strictly_inside_triangle(Point a, Point b, Point c, Point point) {
+bool strictly_inside_triangle(pt a, pt b, pt c, pt point) {
     ld area = abs((b - a) % (c - a));
     ld area1 = abs((point - a) % (point - b));
     ld area2 = abs((point - b) % (point - c));
@@ -74,15 +74,15 @@ bool strictly_inside_triangle(Point a, Point b, Point c, Point point) {
     return gt(area1, 0) && gt(area2, 0) && gt(area3, 0) && eq(area1 + area2 + area3, area);
 }
 
-bool is_inside(vector<Point>& hull, Point p) {
+bool is_inside(vector<pt>& hull, pt p) {
     int n = hull.size();
     if (n == 1) return (hull.front() == p);
 
     int l = 1, r = n - 1;
     while (abs(r - l) > 1) {
         int mid = (r + l) / 2;
-        Point to_mid = hull[mid] - hull[0];
-        Point to_p = p - hull[0];
+        pt to_mid = hull[mid] - hull[0];
+        pt to_p = p - hull[0];
         if ((to_p % (to_mid)) < 0)
             r = mid;
         else
@@ -105,17 +105,17 @@ void solve() {
         ld m = lo + (hi - lo) / 2.0;
         ld nh = h - m;
 
-        vector<Point> new_pts;
+        vector<pt> new_pts;
         for (auto [x, y, height] : pts) {
             if (height >= nh) {
                 new_pts.push_back({x, y});
             }
         }
 
-        vector<Point> hull = ch(new_pts);
+        vector<pt> hull = ch(new_pts);
         reverse(all(hull));
 
-        Point pt = {ptx, pty};
+        pt pt = {ptx, pty};
         if (is_inside(hull, pt)) {
             hi = m;
             ans = m;
